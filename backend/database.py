@@ -3,7 +3,7 @@ from psycopg2 import connect
 from psycopg2 import sql
 from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection
-import os 
+import os
 
 
 def get_db_connection() -> connection:
@@ -51,7 +51,6 @@ def get_all_habits_with_tamagochis() -> list[dict]:
             t.habit_id,
             t.tamagotchi_name,
             t.happiness_level,
-            t.size_level,
             t.created_at
         FROM habit h
         LEFT JOIN tamagotchi t
@@ -113,6 +112,7 @@ def delete_habit(habit_id: int) -> bool:
 
 # Tamagotchi functions:
 
+
 def get_tamagotchi_by_id(habit_id: int) -> dict | None:
     query = """
         SELECT
@@ -130,7 +130,7 @@ def get_tamagotchi_by_id(habit_id: int) -> dict | None:
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(query, (habit_id,))
             return cursor.fetchone()
-        
+
 
 def update_tamagotchi_happiness(tamagotchi_id: int, happiness: int) -> bool:
     query = """
@@ -172,7 +172,7 @@ def calculate_tamagotchi_state(habit_id: int) -> str | None:
         return "neutral"
     else:
         return "sad"
-    
+
 
 # Completion Functions
 
