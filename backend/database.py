@@ -12,7 +12,7 @@ def get_db_connection() -> connection:
     #     user=os.environ["DB_USER"],
     #     password=os.environ["DB_PASSWORD"],
     #     host=os.environ.get("DB_HOST"),
-    #     port=os.environ.get("DB_PORT", 5432)
+    #     port=os.environ.get("DB_PORT")
     # )
     ...
 
@@ -111,6 +111,7 @@ def delete_habit(habit_id: int) -> bool:
 
     return rows_affected > 0
 
+# Tamagotchi functions:
 
 def get_tamagotchi_by_id(habit_id: int) -> dict | None:
     query = """
@@ -129,3 +130,92 @@ def get_tamagotchi_by_id(habit_id: int) -> dict | None:
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(query, (habit_id,))
             return cursor.fetchone()
+        
+
+def update_tamagotchi_happiness(tamagotchi_id: int, happiness: int) -> bool:
+    query = """
+        UPDATE tamagotchi t
+        SET happiness_level = %s
+        WHERE t.tamagotchi_id = %s;
+    """
+
+    with get_db_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(query, (happiness, tamagotchi_id))
+            rows_affected = cursor.rowcount
+            conn.commit()
+
+    return rows_affected > 0
+
+
+def calculate_tamagotchi_state(habit_id: int) -> str | None:
+    query = """
+        SELECT
+            t.happiness_level
+        FROM tamagotchi t
+        WHERE t.habit_id = %s;
+    """
+
+    with get_db_connection() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            cursor.execute(query, (habit_id,))
+            row = cursor.fetchone()
+
+    if row is None:
+        return None
+
+    happiness = row["happiness_level"]
+
+    if happiness >= 7:
+        return "happy"
+    elif happiness >= 4:
+        return "neutral"
+    else:
+        return "sad"
+
+
+def add_completion(habit_id: int) -> dict:
+    query = """
+        INSERT INTO habit_completion (
+            habit_id,
+            completion_date,
+            completed_at
+        )
+        VALUES (
+            %s,
+            CURRENT_DATE,
+            NOW()
+        )
+        RETURNING
+            completion_id,
+            habit_id,
+            completion_date,
+            completed_at;
+    """
+
+    with get_db_connection() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            cursor.execute(query, (habit_id,))
+            completion = cursor.fetchone()
+            conn.commit()
+
+    return completion
+
+
+def get_completions_by_id(habit_id: int, days: int = 7) -> list[dict]:
+    query = """
+        SELECT
+            hc.completion_id,
+            hc.habit_id,
+            hc.completion_date,
+            hc.completed_at
+        FROM habit_completion hc
+        WHERE hc.habit_id = %s
+          AND hc.completion_date >= CURRENT_DATE - INTERVAL '%s days'
+        ORDER BY hc.completion_date DESC;
+    """
+
+    with get_db_connection() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            cursor.execute(query, (habit_id, days))
+            return cursor.fetchall()
