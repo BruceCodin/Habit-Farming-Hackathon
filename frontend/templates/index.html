@@ -7,12 +7,20 @@
     <link rel="stylesheet" href="{{ url_for('frontend', filename='styles.css') }}">
 </head>
 <body>
-    <div class="date_section">
+    <div class="title_section">
+        <h1>Habit Farming</h1>
+        <h1>Mon 22 December</h1>
     </div>
 
-    <div class ="habit_buttons">
+    <div class ="habit_grid">
         {% for habit in habits %}
-        
+        <div class='Habit_card'>
+            {{ habit.habit_name }}
+            {{ habit.tamagotchi_name }}
+            {{ happiness_level }}
+
+        </div>
+        {% endfor %}
     </div>
 
     <div class="animals">
