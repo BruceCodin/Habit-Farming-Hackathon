@@ -17,18 +17,18 @@ def get_db_connection() -> connection:
     ...
 
 
-def create_habit(habit_name: str, description: str, target_frequency: int, frequency_unit: str) -> dict:
+def create_habit(habit_name: str, habit_description: str, target_frequency: int, frequency_unit: str) -> dict:
     query = sql.SQL("""
-        INSERT INTO habit (habit_name, description, target_frequency, frequency_unit)
+        INSERT INTO habit (habit_name, habit_description, target_frequency, frequency_unit)
         VALUES (%s, %s, %s, %s)
-        RETURNING habit_id, habit_name, description, target_frequency, frequency_unit;
+        RETURNING habit_id, habit_name, habit_description, target_frequency, frequency_unit;
     """)
 
     with get_db_connection() as conn:
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(
                 query,
-                (habit_name, description, target_frequency, frequency_unit)
+                (habit_name, habit_description, target_frequency, frequency_unit)
             )
             habit = cursor.fetchone()
             conn.commit()
@@ -41,7 +41,7 @@ def get_all_habits_with_tamagochis() -> list[dict]:
         SELECT
             h.habit_id,
             h.habit_name,
-            h.description,
+            h.habit_description,
             h.target_frequency,
             h.frequency_unit,
             h.is_active,
@@ -49,7 +49,7 @@ def get_all_habits_with_tamagochis() -> list[dict]:
 
             t.tamagotchi_id,
             t.habit_id,
-            t.name,
+            t.tamagotchi_name,
             t.happiness_level,
             t.size_level,
             t.created_at
@@ -72,7 +72,7 @@ def get_habit_by_id(habit_id: int) -> dict:
         SELECT
             h.habit_id,
             h.habit_name,
-            h.description,
+            h.habit_description,
             h.target_frequency,
             h.frequency_unit,
             h.is_active,
@@ -80,7 +80,7 @@ def get_habit_by_id(habit_id: int) -> dict:
 
             t.tamagotchi_id,
             t.habit_id,
-            t.name,
+            t.tamagotchi_name,
             t.happiness_level,
             t.size_level,
             t.created_at
@@ -118,7 +118,7 @@ def get_tamagotchi_by_id(habit_id: int) -> dict | None:
         SELECT
             t.tamagotchi_id,
             t.habit_id,
-            t.name,
+            t.tamagotchi_name,
             t.happiness_level,
             t.size_level,
             t.created_at
@@ -213,7 +213,7 @@ def get_completions_by_id(habit_id: int, days: int = 7) -> list[dict]:
             hc.completed_at
         FROM habit_completion hc
         WHERE hc.habit_id = %s
-          AND hc.completion_date >= CURRENT_DATE - INTERVAL '%s days'
+          AND hc.completion_date >= CURRENT_DATE - (%s * INTERVAL '1 day')
         ORDER BY hc.completion_date DESC;
     """
 
