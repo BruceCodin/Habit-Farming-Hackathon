@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Habit Farm</title>
+
+<style>
+/* --- GLOBAL PIXEL STYLE --- */
+@font-face {
+  font-family: "Pixel";
+  src: local("Courier New");
+}
+
+body {
+  margin: 0;
+  background-color: #5c94fc;
+  font-family: Pixel, monospace;
+  image-rendering: pixelated;
+}
+
+/* --- GAME CONTAINER --- */
+.game {
+  max-width: 900px;
+  margin: 20px auto;
+  background-color: #88c070;
+  border: 6px solid #2c4a1f;
+  padding: 12px;
+}
+
+/* --- HEADER --- */
+.header {
+  background-color: #3b6f3b;
+  color: #fff;
+  padding: 10px;
+  border: 4px solid #1f3b1f;
+  margin-bottom: 12px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+/* --- FARM GRID --- */
+.farm {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+/* --- PLOT TILE --- */
+.plot {
+  background-color: #8b5a2b;
+  border: 4px solid #5a3b1a;
+  height: 110px;
+  position: relative;
+}
+
+/* Empty soil */
+.plot.empty::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  background-color: #6f4420;
+}
+
+/* Growing crop */
+.plot.growing::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  background-color: #3fa34d;
+}
+
+/* Fully grown crop */
+.plot.complete::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  background-color: #2ecc71;
+  box-shadow:
+    10px 0 #2ecc71,
+    -10px 0 #2ecc71,
+    0 10px #2ecc71,
+    0 -10px #2ecc71;
+}
+
+/* Habit label */
+.plot span {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  right: 4px;
+  font-size: 10px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  padding: 2px;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  margin-top: 12px;
+  background-color: #e0d8b0;
+  border: 4px solid #8b7a4a;
+  padding: 10px;
+}
+
+.sidebar h2 {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.stat {
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+  <div class="header">
+    <h1>🌱 HABIT FARM</h1>
+  </div>
+
+  <div class="farm">
+    <div class="plot complete"><span>Gym</span></div>
+    <div class="plot growing"><span>Read</span></div>
+    <div class="plot empty"><span>Meditate</span></div>
+    <div class="plot complete"><span>Code</span></div>
+
+    <div class="plot growing"><span>Water</span></div>
+    <div class="plot empty"><span>Sleep</span></div>
+    <div class="plot growing"><span>Stretch</span></div>
+    <div class="plot empty"><span>Journal</span></div>
+  </div>
+
+  <div class="sidebar">
+    <h2>Tamagotchi</h2>
+    <div class="stat">Name: Sprouty</div>
+    <div class="stat">Happiness: 6</div>
+    <div class="stat">State: 😊 Happy</div>
+  </div>
+</div>
+
+</body>
+</html>
