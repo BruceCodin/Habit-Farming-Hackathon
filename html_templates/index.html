@@ -5,145 +5,185 @@
 <title>Habit Farm</title>
 
 <style>
-/* --- GLOBAL PIXEL STYLE --- */
-@font-face {
-  font-family: "Pixel";
-  src: local("Courier New");
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background-color: #5c94fc;
-  font-family: Pixel, monospace;
-  image-rendering: pixelated;
+  background: #e6f4ea; /* pale green background */
+  font-family: "Comic Sans MS", system-ui, sans-serif;
 }
 
-/* --- GAME CONTAINER --- */
-.game {
-  max-width: 900px;
-  margin: 20px auto;
-  background-color: #88c070;
-  border: 6px solid #2c4a1f;
-  padding: 12px;
+/* Outer frame */
+.app {
+  width: 92%;
+  max-width: 1200px;
+  margin: 30px auto;
+  background: #bfe3c0; /* soft farm green */
+  border: 4px solid #2f4f2f;
+  border-radius: 20px;
+  padding: 24px;
 }
 
-/* --- HEADER --- */
+/* Header */
 .header {
-  background-color: #3b6f3b;
-  color: #fff;
-  padding: 10px;
-  border: 4px solid #1f3b1f;
-  margin-bottom: 12px;
+  background: #4f6f3e;
+  border: 4px solid #2e4725;
+  border-radius: 12px;
+  padding: 18px 24px;
+  color: white;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 20px;
-  letter-spacing: 2px;
+  font-size: 28px;
 }
 
-/* --- FARM GRID --- */
+.header p {
+  margin: 6px 0 0;
+  font-size: 16px;
+}
+
+/* Add habit button */
+.add-habit {
+  margin: 24px auto;
+  width: 280px;
+  background: #d8f3dc;
+  border: 3px solid #40916c;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  color: #1b4332;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Farm area */
 .farm {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  background: #dff5e1;
+  border: 4px solid #40916c;
+  border-radius: 18px;
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
 }
 
-/* --- PLOT TILE --- */
-.plot {
-  background-color: #8b5a2b;
-  border: 4px solid #5a3b1a;
-  height: 110px;
-  position: relative;
+/* Habit card */
+.habit-card {
+  background: #fff6c1;
+  border: 3px solid #2f4f2f;
+  border-radius: 16px;
+  width: 260px;
+  padding: 14px;
 }
 
-/* Empty soil */
-.plot.empty::after {
-  content: "";
-  position: absolute;
-  inset: 12px;
-  background-color: #6f4420;
+/* SVG image placeholder */
+.pet-image {
+  height: 120px;
+  background: #fefae0;
+  border: 3px solid #bc6c25;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #bc6c25;
+  margin-bottom: 10px;
 }
 
-/* Growing crop */
-.plot.growing::after {
-  content: "";
-  position: absolute;
-  inset: 12px;
-  background-color: #3fa34d;
+/* Progress bar */
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
 }
 
-/* Fully grown crop */
-.plot.complete::after {
-  content: "";
-  position: absolute;
-  inset: 12px;
-  background-color: #2ecc71;
-  box-shadow:
-    10px 0 #2ecc71,
-    -10px 0 #2ecc71,
-    0 10px #2ecc71,
-    0 -10px #2ecc71;
+.progress-dot {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #40916c;
+  border-radius: 50%;
 }
 
-/* Habit label */
-.plot span {
-  position: absolute;
-  bottom: 4px;
-  left: 4px;
-  right: 4px;
-  font-size: 10px;
-  background: rgba(0,0,0,0.5);
-  color: #fff;
-  padding: 2px;
+.progress-bar {
+  flex: 1;
+  height: 14px;
+  background: #b7e4c7;
+  border-radius: 8px;
 }
 
-/* --- SIDEBAR --- */
-.sidebar {
-  margin-top: 12px;
-  background-color: #e0d8b0;
-  border: 4px solid #8b7a4a;
-  padding: 10px;
-}
-
-.sidebar h2 {
-  margin: 0 0 6px;
-  font-size: 14px;
-}
-
-.stat {
+.progress-text {
   font-size: 12px;
-  margin-bottom: 4px;
+  color: #40916c;
+}
+
+/* Habit info */
+.habit-name {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 6px;
+  color: #1b4332;
+}
+
+.pet-info {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 6px;
+  color: #344e41;
 }
 </style>
 </head>
 
 <body>
 
-<div class="game">
+<div class="app">
+
   <div class="header">
-    <h1>🌱 HABIT FARM</h1>
+    <h1>Habit Farming</h1>
+    <p id="today-date"></p>
+  </div>
+
+  <div class="add-habit">
+    Add Habit
   </div>
 
   <div class="farm">
-    <div class="plot complete"><span>Gym</span></div>
-    <div class="plot growing"><span>Read</span></div>
-    <div class="plot empty"><span>Meditate</span></div>
-    <div class="plot complete"><span>Code</span></div>
 
-    <div class="plot growing"><span>Water</span></div>
-    <div class="plot empty"><span>Sleep</span></div>
-    <div class="plot growing"><span>Stretch</span></div>
-    <div class="plot empty"><span>Journal</span></div>
+    <div class="habit-card">
+      <div class="pet-image">
+        SVG Image
+      </div>
+
+      <div class="progress-row">
+        <div class="progress-dot"></div>
+        <div class="progress-bar"></div>
+        <div class="progress-text">0/??</div>
+      </div>
+
+      <div class="habit-name">
+        Habit Name
+      </div>
+
+      <div class="pet-info">
+        Pet Name() : Happiness Level ???
+      </div>
+    </div>
+
+    <!-- more habit cards go here -->
+
   </div>
 
-  <div class="sidebar">
-    <h2>Tamagotchi</h2>
-    <div class="stat">Name: Sprouty</div>
-    <div class="stat">Happiness: 6</div>
-    <div class="stat">State: 😊 Happy</div>
-  </div>
 </div>
+
+<script>
+  const dateEl = document.getElementById("today-date");
+  const today = new Date();
+  const options = { weekday: "short", day: "numeric", month: "short" };
+  dateEl.textContent = today.toLocaleDateString("en-GB", options);
+</script>
 
 </body>
 </html>
