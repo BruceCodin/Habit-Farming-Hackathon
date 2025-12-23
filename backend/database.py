@@ -4,6 +4,8 @@ from psycopg2 import sql
 from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection
 import os
+import datetime
+import date
 
 
 def get_db_connection() -> connection:
@@ -16,23 +18,44 @@ def get_db_connection() -> connection:
     )
 
 
-def create_habit(habit_name: str, habit_description: str, target_frequency: int, frequency_unit: str) -> dict:
-    query = sql.SQL("""
+def create_habit(habit_name: str, habit_description: str, target_frequency: int, frequency_unit: str,
+                 tamagotchi_name: str, ) -> dict:
+    query1 = sql.SQL("""
         INSERT INTO habits (habit_name, habit_description, target_frequency, frequency_unit)
         VALUES (%s, %s, %s, %s)
-        RETURNING habit_id, habit_name, habit_description, target_frequency, frequency_unit;
+        RETURNING habit_id;
     """)
+
+    query2 = sql.SQL("""
+                    INSERT INTO tamagotchi (tamagotchi_name, happiness_level, created_at)
+                    VALUES(%s, %s, %s);
+                    """)
+
+    query3 = sql.SQL("""
+                INSERT INTO habits_completion (habit_id, completion_date, completed_at)
+                    VALUES (%s, %s, %s);
+                 """)
 
     with get_db_connection() as conn:
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(
-                query,
+                query1,
                 (habit_name, habit_description, target_frequency, frequency_unit)
             )
-            habit = cursor.fetchone()
+            habit_id = cursor.fetchone()['habit_id']
             conn.commit()
 
-    return habit
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            cursor.execute(
+                query2, (habit_id, tamagotchi_name, 0, 'current_date')
+            )
+            conn.commit()
+
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            cursor.execute(
+                query3, (habit_id, 'Null', 'Null')
+            )
+            conn.commit()
 
 
 def get_all_habits_with_tamagochis() -> list[dict]:
