@@ -110,6 +110,8 @@
         form button:hover {
             background-color: rgba(255, 255, 255, 0.3);
         }
+
+        
     </style>
 </head>
 
@@ -161,9 +163,8 @@
                     {% endif %}
                     {{ habit.tamagotchi_name }}
                     {{ habit.happiness_level }}
-                    <form action ="/habit/{{ habit.habit_id }}/complete" method = 'POST'>
-                        <button type="submit">Completed</button>
-                    </form>
+
+                    
 
                 </div>
                 {% endfor %}
@@ -183,6 +184,8 @@
         });
         // Put it in the HTML
         document.getElementById('current-date').textContent = formattedDate;
+
+        
     </script>
 </body>
 </html>
