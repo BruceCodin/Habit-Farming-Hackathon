@@ -26,7 +26,7 @@ CREATE TABLE tamagotchi (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
     -- Habit ID Foreign Key: 
-    FOREIGN KEY (habit_id) REFERENCES habit(habit_id) ON DELETE CASCADE,
+    FOREIGN KEY (habit_id) REFERENCES habits(habit_id) ON DELETE CASCADE,
     -- Constraints:
     CONSTRAINT happiness_level_check CHECK (happiness_level >= 0)
 
@@ -40,6 +40,6 @@ CREATE TABLE habit_completion (
     completed_at TIMESTAMP NOT NULL,
 
     -- Habit ID Foreign Key: 
-    FOREIGN KEY (habit_id) REFERENCES habit(habit_id) ON DELETE CASCADE
+    FOREIGN KEY (habit_id) REFERENCES habits(habit_id) ON DELETE CASCADE
 
 );
