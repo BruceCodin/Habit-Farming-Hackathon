@@ -1,0 +1,11 @@
+"""Vercel entry point"""
+from app import app
+import sys
+from pathlib import Path
+
+# Add src to path so imports work
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+
+
+# Vercel will look for 'app' variable
+# No need to call app.run() - Vercel handles that

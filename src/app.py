@@ -10,6 +10,7 @@ from database import (check_and_apply_decay,
 from dotenv import load_dotenv
 
 app = Flask(__name__)
+load_dotenv()
 
 
 @app.route("/")
