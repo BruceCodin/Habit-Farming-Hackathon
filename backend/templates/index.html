@@ -163,6 +163,7 @@
         /* progress bar */
         .progress {
             position: relative;
+            display: inline-block;
             width: 210px;
             height: 30px;
             background: #9cbab4;
@@ -330,10 +331,10 @@
                         <div class="progress__fill" style = "width: {{ habit.happiness_level }}%;"></div>
                         <span class="progress__text">{{ habit.happiness_level }}</span>
                     </div>
-                    
-                    {{ habit.tamagotchi_name }}
-
-                    
+                    <div>
+                        {{ habit.tamagotchi_name }}
+                    </div>
+                                   
                     <!-- completed the habit button -->
                     <form action ="/habit/{{ habit.habit_id }}/complete" method = 'POST'>
                         <button type="submit">Completed</button>
