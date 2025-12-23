@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #e6f4ea; /* pale green background */
+  font-family: "Comic Sans MS", system-ui, sans-serif;
+}
+/* Outer frame */
+.app {
+  width: 92%;
+  max-width: 1200px;
+  margin: 30px auto;
+  background: #bfe3c0; /* soft farm green */
+  border: 4px solid #2f4f2f;
+  border-radius: 20px;
+  padding: 24px;
+}
+
+/* Header */
+.header {
+  background: #4f6f3e;
+  border: 4px solid #2e4725;
+  border-radius: 12px;
+  padding: 18px 24px;
+  color: white;
+}

@@ -9,7 +9,7 @@ CREATE TABLE habits (
     habit_name TEXT NOT NULL,
     habit_description TEXT,
     target_frequency INT NOT NULL,
-    frequency_unit TEXT NOT NULL,
+    frequency_unit INT NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),  
 
@@ -26,7 +26,7 @@ CREATE TABLE tamagotchi (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
     -- Habit ID Foreign Key: 
-    FOREIGN KEY (habit_id) REFERENCES habit(habit_id) ON DELETE CASCADE,
+    FOREIGN KEY (habit_id) REFERENCES habits(habit_id) ON DELETE CASCADE,
     -- Constraints:
     CONSTRAINT happiness_level_check CHECK (happiness_level >= 0)
 
@@ -36,10 +36,10 @@ CREATE TABLE tamagotchi (
 CREATE TABLE habit_completion (
     completion_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     habit_id INT NOT NULL,
-    completion_date DATE NOT NULL,
-    completed_at TIMESTAMP NOT NULL,
+    completion_date DATE,
+    completed_at TIMESTAMP,
 
     -- Habit ID Foreign Key: 
-    FOREIGN KEY (habit_id) REFERENCES habit(habit_id) ON DELETE CASCADE
+    FOREIGN KEY (habit_id) REFERENCES habits(habit_id) ON DELETE CASCADE
 
 );

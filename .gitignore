@@ -23,3 +23,12 @@ Thumbs.db
 
 # Terraform 
 .tfvars
+*.tfstate
+*.tfstate.hcl
+.terraform/
+*.hcl
+*tfstate.backup
+
+
+.venv/
+.venv

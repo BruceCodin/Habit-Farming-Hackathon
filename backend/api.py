@@ -27,7 +27,7 @@ def home():
     for habit in habits:
         habit['completed_today'] = has_completed_today(habit['habit_id'])
 
-    return render_template('frontend/templates/index.html', habits=habits)
+    return render_template('index.html', habits=habits)
 
 
 @app.route('/habit/create', methods=['POST'])
@@ -37,9 +37,11 @@ def add_habit():
     description = request.form.get('description')
     target_frequency = request.form.get('target_frequency')
     frequency_unit = request.form.get('frequency_unit')
+    tamagotchi_name = request.form.get('tamagotchi_name')
 
     # Create habit in DB
-    create_habit(name, description, target_frequency, frequency_unit)
+    create_habit(name, description, target_frequency,
+                 frequency_unit, tamagotchi_name)
 
     # Redirect back to home
     return redirect(url_for('home'))
