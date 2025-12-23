@@ -85,6 +85,15 @@
             <button class="btn" onclick="showModal()">Add Habit</button>
         </div>
 
+        <div id="modal" style="display: none;">
+            <div class="modal-overlay">
+                <div class="modal-content">
+                    <form>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="outer">
             <div class ="habit_grid">
                 {% for habit in habits %}
