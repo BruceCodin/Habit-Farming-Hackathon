@@ -19,7 +19,7 @@ def get_db_connection() -> connection:
 
 
 def create_habit(habit_name: str, habit_description: str, target_frequency: int, frequency_unit: str,
-                 tamagotchi_name: str, ) -> dict:
+                 tamagotchi_name: str) -> dict:
     query1 = sql.SQL("""
         INSERT INTO habits (habit_name, habit_description, target_frequency, frequency_unit)
         VALUES (%s, %s, %s, %s)
