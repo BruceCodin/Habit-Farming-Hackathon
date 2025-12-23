@@ -166,24 +166,99 @@
             font: bold;
             color: #654321
         }
+        .title_section {
+             display: flex;
+            flex-direction: row;     
+            align-items: center;     
+            gap: 24px;
+
+            padding-top: 32px;
+            padding-left: 32px;
+            margin-bottom: 32px;
+        }
+
+        .title-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .app-logo {
+            height: 150px;   /* adjust size here */
+            width: auto;
+            display: block;
+        }
+
+        .title-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
         
+        .date-section {
+        font-family: "Press Start 2P", system-ui, sans-serif;
+
+        font-size: 1.1rem;      /* pixel fonts read large */
+        line-height: 1.4;
+        letter-spacing: 1px;
+
+        color: #2f4f2f;         /* dark farm green */
+    }
+
+        .image-button {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0;
+            margin: 0;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .image-button img {
+            width: 200px;
+            height: auto;
+            display: block;
+            background: transparent;
+        }
+
     </style>
 </head>
 
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 
 <body>
-    <div class="app">
-        <div class="title_section">
-            <h1 id="title">Habit Farming</h1>
-            <div class="date-section">
-                <p id="current-date"></p>
-            </div>
-        </div>
+    <div class="title_section">
+    <div class="title-left">
+        <img
+            src="{{ url_for('static', filename='logo/logo.png') }}"
+            alt="Habit Farming logo"
+            class="app-logo"
+        >
+    </div>
 
-        <div class="add-habit">
-            <button class="btn" onclick="showModal()">Add Habit</button>
+    <div class="title-right">
+        <div class="date-section">
+            <p id="current-date"></p>
         </div>
+    </div>
+</div>
+       <div class="add-habit">
+    <button
+        type="button"
+        class="image-button"
+        onclick="showModal()"
+        aria-label="Add Habit"
+    >
+        <img
+            src="{{ url_for('static', filename='button/button.png') }}"
+            alt="Add Habit"
+        >
+    </button>
+</div>
 
         <div id="modal" style="display: none">
             <div class="modal-overlay">
