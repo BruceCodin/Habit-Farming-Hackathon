@@ -107,8 +107,18 @@
                 {% for habit in habits %}
                 <div class='habit-card'>
                     {{ habit.habit_name }}
+                    {% if habit.happiness_level < 34 %}
+                        <img src="{{ url_for('frontend', filename='sad.png') }}" alt="Sad pet">
+                    {% elif habit.happiness_level < 67 %}
+                        <img src="{{ url_for('frontend', filename='neutral.png') }}" alt="Neutral pet">
+                    {% else %}
+                        <img src="{{ url_for('frontend', filename='happy.png') }}" alt="Happy pet">
+                    {% endif %}
                     {{ habit.tamagotchi_name }}
-                    {{ happiness_level }}
+                    {{ habit.happiness_level }}
+                    <form action ="/habit/{{ habit.habit_id }}/complete" method = 'POST'>
+                        <button type="submit">Completed</button>
+                    </form>
 
                 </div>
                 {% endfor %}
@@ -116,9 +126,7 @@
 
         </div>
     </div>
-    <!-- <script src="{{ url_for('static', filename='example.js') }}"></script>   -->
     
-
     <script>
         //  Get today's date
         const today = new Date();
