@@ -1,7 +1,7 @@
 """Habit tracking api"""
 
 from flask import Flask, request, render_template, redirect, url_for
-from database import (check_and_apply_decay,
+from api.database import (check_and_apply_decay,
                       get_all_habits_with_tamagochis, has_completed_today,
                       create_habit, add_completion,
                       delete_habit,
