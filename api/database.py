@@ -38,7 +38,8 @@ def create_habit(habit_name: str, habit_description: str, target_frequency: int,
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(
                 query1,
-                (habit_name, habit_description, target_frequency, frequency_unit, animal_type)
+                (habit_name, habit_description,
+                 target_frequency, frequency_unit, animal_type)
             )
             habit_id = int(cursor.fetchone()['habit_id'])
             conn.commit()
@@ -310,7 +311,7 @@ def check_and_apply_decay() -> int:
             tamagotchis = cursor.fetchall()
 
             for t in tamagotchis:
-                new_happiness = max(t["happiness_level"] - 1, 0)
+                new_happiness = max(t["happiness_level"] - 10, 0)
 
                 cursor.execute(
                     update_query,
