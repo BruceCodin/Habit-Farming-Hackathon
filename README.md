@@ -3,7 +3,7 @@ A Tamagotchi-inspired habit tracker hackathon project where you can track habit 
 
 ![Dashboard Screenshot](docs/images/dashboard.png)
 
-**Live Demo:** https://hackathon-tamagotchi.vercel.app
+**Live Demo:** [Habit Farming](https://hackathon-tamagotchi.vercel.app)
 
 ## About The Project
 Habit Farming is a playful, gamified habit tracker inspired by Tamagotchi-style virtual pets.  
